@@ -124,6 +124,7 @@ const AlbumList = (props) => {
         perPage={perPage}
         pagination={<Pagination rowsPerPageOptions={perPageOptions} />}
         title={<AlbumListTitle albumListType={albumListType} />}
+        
       >
         {albumView.grid ? (
           <AlbumGridView albumListType={albumListType} {...props} />

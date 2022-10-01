@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Children, cloneElement, isValidElement, useState } from 'react'
 import PropTypes from 'prop-types'
-import { useTranslate, useGetIdentity } from 'react-admin'
+import { useTranslate, useGetIdentity, usePermissions, useLogout } from 'react-admin'
 import {
   Tooltip,
   IconButton,
@@ -12,10 +12,11 @@ import {
   CardContent,
   Divider,
   Typography,
+  MenuItem
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import AccountCircle from '@material-ui/icons/AccountCircle'
-import config from '../config'
+// import config from '../config'
 
 const useStyles = makeStyles((theme) => ({
   user: {},
@@ -40,6 +41,8 @@ const UserMenu = (props) => {
   const translate = useTranslate()
   const { loaded, identity } = useGetIdentity()
   const classes = useStyles(props)
+  const { permissions } = usePermissions()
+  const login = useLogout()
 
   const { children, label, icon, logout } = props
   if (!logout && !children) return null
@@ -47,6 +50,9 @@ const UserMenu = (props) => {
 
   const handleMenu = (event) => setAnchorEl(event.currentTarget)
   const handleClose = () => setAnchorEl(null)
+  const hanldeLoginIn = () =>{
+    login()
+  }
 
   return (
     <div className={classes.user}>
@@ -100,7 +106,13 @@ const UserMenu = (props) => {
                 })
               : null
           )}
-          {!config.auth && logout}
+          {permissions ? logout : 
+          
+           (<MenuItem
+            onClick={hanldeLoginIn}>
+            登录
+          </MenuItem>)
+          }
         </MenuList>
       </Popover>
     </div>

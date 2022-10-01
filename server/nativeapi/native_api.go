@@ -31,17 +31,17 @@ func New(ds model.DataStore, broker events.Broker, share core.Share) *Router {
 func (n *Router) routes() http.Handler {
 	r := chi.NewRouter()
 
-	r.Use(server.Authenticator(n.ds))
+	//r.Use(server.Authenticator(n.ds))
 	r.Use(server.JWTRefresher)
-	n.R(r, "/user", model.User{}, true)
+	n.R(r.With(server.Authenticator(n.ds)), "/user", model.User{}, true)
 	n.R(r, "/song", model.MediaFile{}, false)
 	n.R(r, "/album", model.Album{}, false)
 	n.R(r, "/artist", model.Artist{}, false)
 	n.R(r, "/genre", model.Genre{}, false)
-	n.R(r, "/player", model.Player{}, true)
-	n.R(r, "/playlist", model.Playlist{}, true)
-	n.R(r, "/transcoding", model.Transcoding{}, conf.Server.EnableTranscodingConfig)
-	n.RX(r, "/share", n.share.NewRepository, true)
+	n.R(r.With(server.Authenticator(n.ds)), "/player", model.Player{}, true)
+	n.R(r.With(server.Authenticator(n.ds)), "/playlist", model.Playlist{}, true)
+	n.R(r.With(server.Authenticator(n.ds)), "/transcoding", model.Transcoding{}, conf.Server.EnableTranscodingConfig)
+	n.RX(r.With(server.Authenticator(n.ds)), "/share", n.share.NewRepository, true)
 	n.RX(r, "/translation", newTranslationRepository, false)
 
 	n.addPlaylistTrackRoute(r)
