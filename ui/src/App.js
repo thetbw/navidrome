@@ -94,18 +94,34 @@ const Admin = (props) => {
       {...props}
     >
       {(permissions) => [
-        <Resource disableAuthentication name="album"  {...album} options={{ subMenu: 'albumList' }} />,
+        <Resource
+          disableAuthentication
+          name="album"
+          {...album}
+          options={{ subMenu: 'albumList' }}
+        />,
         <Resource disableAuthentication name="artist" {...artist} />,
         <Resource disableAuthentication name="song" {...song} />,
-        
-      
-        (permissions !== null && permissions !== undefined) ? <Resource
-          name="playlist"
-          {...playlist}
-          options={{ subMenu: 'playlist' }}
-        /> : "",
+
+        permissions !== null && permissions !== undefined ? (
+          <Resource
+            name="playlist"
+            {...playlist}
+            options={{ subMenu: 'playlist' }}
+          />
+        ) : (
+          ''
+        ),
         <Resource name="user" {...user} options={{ subMenu: 'settings' }} />,
-        permissions === 'admin' ? <Resource name="player" {...player} options={{ subMenu: 'settings' }}/> : '',
+        permissions === 'admin' ? (
+          <Resource
+            name="player"
+            {...player}
+            options={{ subMenu: 'settings' }}
+          />
+        ) : (
+          ''
+        ),
         permissions === 'admin' ? (
           <Resource
             name="transcoding"

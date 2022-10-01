@@ -27,7 +27,7 @@ function storeAuthenticationInfo(authInfo) {
 
 const authProvider = {
   login: ({ username, password }) => {
-    console.log("登录记录")
+    console.log('登录记录')
     let url = baseUrl('/auth/login')
     if (config.firstTime) {
       url = baseUrl('/auth/createAdmin')
@@ -72,8 +72,8 @@ const authProvider = {
     return Promise.resolve()
   },
 
-  checkAuth: () =>{
-    console.log("检查权限");
+  checkAuth: () => {
+    console.log('检查权限')
     return Promise.resolve()
     // return localStorage.getItem('is-authenticated')
     //   ? Promise.resolve()
@@ -81,7 +81,7 @@ const authProvider = {
   },
 
   checkError: ({ status }) => {
-    console.log("错误查询")
+    console.log('错误查询')
     if (status === 401) {
       removeItems()
       return Promise.reject()
@@ -90,13 +90,13 @@ const authProvider = {
   },
 
   getPermissions: () => {
-    console.log("檢測角色")
+    console.log('檢測角色')
     const role = localStorage.getItem('role')
     return role ? Promise.resolve(role) : Promise.resolve()
   },
 
   getIdentity: () => {
-    console.log("获取标识");
+    console.log('获取标识')
     return {
       id: localStorage.getItem('username'),
       fullName: localStorage.getItem('name'),
